@@ -2,7 +2,6 @@ import { AiOutlineMenuFold } from "react-icons/ai";
 import { MdOutlineCircleNotifications } from "react-icons/md";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/navbarLogo.png";
-import { Tooltip } from "react-tooltip";
 import { AuthContext } from "../../../provider/AuthProvider";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -39,6 +38,31 @@ const Navbar = () => {
       </li>
     </>
   );
+
+  const imageHoverOptions = (
+    <div className=" bg-gradient-to-r from-blue-400 to-blue-300">
+      <p
+        className="pointer-events-none text-lg
+        font-extrabold text-fuchsia-800"
+      >
+        {user?.displayName}
+      </p>
+      <Link
+        to="dashboard"
+        className="font-extrabold text-lg min-w-full text-left"
+      >
+        Dashboard
+      </Link>
+
+      <div
+        className=" btn btn-accent min-w-full font-extrabold text-lg hover:bg-sky-600"
+        onClick={handleSignOut}
+      >
+        Log Out
+      </div>
+    </div>
+  );
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start ">
@@ -63,50 +87,46 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{NavOptions}</ul>
       </div>
-      <div className="navbar-end gap-2">
-        <a className="">
+      <div className="navbar-end flex gap-4">
+        <a>
           <MdOutlineCircleNotifications size={30} />
         </a>
-        <div className="navbar-end flex gap-2">
-          <button>
-            {user ? (
-              <div className="flex flex-row justify-center items-center relative gap-4">
-                <div className="flex-col text-center justify-center items-center group">
+        <button>
+          {user ? (
+            <div className="flex flex-row justify-center items-center relative gap-4">
+              <div className="dropdown">
+                <div tabIndex={0} role="button">
                   <img
                     src={user?.photoURL}
                     alt="Profile Photo"
-                    className="rounded-full w-20 h-15 border-gray-100 border-2 name_display hover:blur-sm"
+                    className="rounded-full object-cover w-2/3 h-2/3"
                   />
-                  <Tooltip anchorSelect=".name_display" place="bottom">
-                    {user?.displayName}
-                  </Tooltip>
                 </div>
-
-                <div
-                  className="btn bg-gradient-to-r from-blue-500 to-blue-700 text-white w-20 md:w-32 md:h-16 text-sm md:text-lg"
-                  onClick={handleSignOut}
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 right-2 w-50"
                 >
-                  Log Out
-                </div>
+                  {imageHoverOptions}
+                </ul>
               </div>
-            ) : (
-              <div className="flex gap-2">
-                <Link
-                  to="/log_in"
-                  className="btn bg-gradient-to-r from-blue-500 to-blue-700 w-20 md:w-32 md:h-16 text-sm text-white md:text-lg"
-                >
-                  Log In
-                </Link>
-                <Link
-                  to="/register"
-                  className="btn btn-secondary w-20 md:w-32 md:h-16 text-sm md:text-lg"
-                >
-                  Register
-                </Link>
-              </div>
-            )}
-          </button>
-        </div>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <Link
+                to="/log_in"
+                className="btn bg-gradient-to-r from-blue-500 to-blue-700 w-20 md:w-32 md:h-16 text-sm text-white md:text-lg"
+              >
+                Log In
+              </Link>
+              <Link
+                to="/register"
+                className="btn btn-secondary w-20 md:w-32 md:h-16 text-sm md:text-lg"
+              >
+                Register
+              </Link>
+            </div>
+          )}
+        </button>
       </div>
     </div>
   );
