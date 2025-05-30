@@ -27,7 +27,7 @@ const Register = () => {
     // console.log(email, password, displayName, photoURL);
     try {
       photoURL = await imageUpload(image);
-      // console.log("Uploaded photoURL");
+      console.log("Uploaded photoURL");
     } catch {
       setErrorMessage("Please upload photo to continue the registration");
       return;
@@ -131,9 +131,7 @@ const Register = () => {
 
           <div className="form-control">
             <label className="label mb-2">
-              <span className="label-text text-2xl font-bold">
-                Select Image:
-              </span>
+              <span className="label-text text-2xl font-bold">Image:</span>
             </label>
 
             <input

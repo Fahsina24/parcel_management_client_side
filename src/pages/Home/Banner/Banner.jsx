@@ -1,18 +1,57 @@
 import { MdSearch } from "react-icons/md";
-import backgroundImg from "../../../assets/bg.png";
+import Lottie from "lottie-react";
+import bannerCover from "../../../assets/bannerCover.jpg";
+import bannerLottie from "../../../assets/homePic/bannerPageLottie.json";
+import { motion } from "motion/react";
+
 const Banner = () => {
   return (
-    <div
+    <section
+      className="relative w-full h-[400px] md:h-[500px] flex items-center justify-center bg-cover bg-center opacity-90"
       style={{
-        backgroundImage: `url(${backgroundImg})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        minHeight: "400px",
+        backgroundImage: `url(${bannerCover})`,
       }}
     >
-      <MdSearch />
-      <p>THis is banner section</p>
-    </div>
+      <div className="relative z-10 max-w-6xl w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="text-white md:w-1/2 space-y-5 ">
+          <motion.h2
+            animate={{
+              x: [20, 0],
+              transition: {
+                ease: ["easeIn", "easeOut"],
+                repeat: Infinity,
+
+                repeatDelay: 1,
+              },
+            }}
+            className="text-2xl md:text-4xl font-bold"
+          >
+            Bringing You the Best — Faster, Smarter, Easier!
+          </motion.h2>
+          <p className="text-lg text-gray-200 animate-bounce">
+            Ideal for online retail or delivery services.
+          </p>
+          <div className="flex items-center bg-white rounded-md  max-w-md">
+            <span className="p-3 text-gray-600">
+              <MdSearch size={22} />
+            </span>
+            <input
+              type="search"
+              placeholder="Enter your post code to get your product delivered"
+              className="flex-1 px-2 py-2 focus:outline-none text-gray-800"
+            />
+          </div>
+        </div>
+
+        <div className="hidden md:block md:w-1/2">
+          <Lottie
+            animationData={bannerLottie}
+            loop={true}
+            className="w-full max-w-md"
+          />
+        </div>
+      </div>
+    </section>
   );
 };
 

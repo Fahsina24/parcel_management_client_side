@@ -6,6 +6,7 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import ButtonDesign from "../BtnDesign/ButtonDesign";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -26,36 +27,36 @@ const Navbar = () => {
       .catch((error) => console.log("Error", error.message));
   };
   const NavOptions = (
-    <>
+    <div className="flex gap-4 flex-col lg:flex-row ">
       <li>
-        <a>Home</a>
+        <ButtonDesign value="Home"></ButtonDesign>
       </li>
       <li>
-        <a>Item 1</a>
+        <ButtonDesign value="DashBoard"></ButtonDesign>
       </li>
       <li>
-        <a>Item 1</a>
+        <ButtonDesign value="DashBoard"></ButtonDesign>
       </li>
-    </>
+    </div>
   );
 
   const imageHoverOptions = (
-    <div className=" bg-gradient-to-r from-blue-400 to-blue-300">
+    <div className=" bg-gradient-to-r from-blue-400 to-blue-300 ">
       <p
         className="pointer-events-none text-lg
-        font-extrabold text-fuchsia-800"
+        font-extrabold text-fuchsia-800 my-4"
       >
         {user?.displayName}
       </p>
       <Link
         to="dashboard"
-        className="font-extrabold text-lg min-w-full text-left"
+        className="btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
       >
         Dashboard
       </Link>
 
       <div
-        className=" btn btn-accent min-w-full font-extrabold text-lg hover:bg-sky-600"
+        className=" btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
         onClick={handleSignOut}
       >
         Log Out
@@ -64,12 +65,11 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-sm">
-      <div className="navbar-start ">
+    <div className="navbar max-w-7xl fixed font-extrabold z-[1] text-white ">
+      <div className="navbar-start gap-2 ">
         <div className="dropdown">
           <div
             tabIndex={0}
-            role="button"
             className=" border-gray-200 border-1 p-1 rounded hover:bg-gray-400 lg:hidden"
           >
             <AiOutlineMenuFold size={20} />
@@ -81,13 +81,13 @@ const Navbar = () => {
             {NavOptions}
           </ul>
         </div>
-        <img className="w-15 h-15" src={logo} />
+        <img className="w-15 h-15 rounded-full mr-2" src={logo} />
         <a className="text-sm font-extrabold md:text-xl">SwiftDrop</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{NavOptions}</ul>
       </div>
-      <div className="navbar-end flex gap-4">
+      <div className="navbar-end flex gap-4 mr-2">
         <a>
           <MdOutlineCircleNotifications size={30} />
         </a>
@@ -95,11 +95,11 @@ const Navbar = () => {
           {user ? (
             <div className="flex flex-row justify-center items-center relative gap-4">
               <div className="dropdown">
-                <div tabIndex={0} role="button">
+                <div tabIndex={0}>
                   <img
                     src={user?.photoURL}
                     alt="Profile Photo"
-                    className="rounded-full object-cover w-2/3 h-2/3"
+                    className="rounded-full object-cover w-12"
                   />
                 </div>
                 <ul
@@ -114,13 +114,13 @@ const Navbar = () => {
             <div className="flex gap-2">
               <Link
                 to="/log_in"
-                className="btn bg-gradient-to-r from-blue-500 to-blue-700 w-20 md:w-32 md:h-16 text-sm text-white md:text-lg"
+                className="btn bg-gradient-to-r from-blue-400 to-blue-600 w-20 md:w-32 md:h-16 text-sm text-white md:text-lg border-none shadow-none"
               >
                 Log In
               </Link>
               <Link
                 to="/register"
-                className="btn btn-secondary w-20 md:w-32 md:h-16 text-sm md:text-lg"
+                className="btn bg-gradient-to-r from-pink-400 to-pink-300 border-none shadow-none w-20 md:w-32 md:h-16 text-sm md:text-lg"
               >
                 Register
               </Link>

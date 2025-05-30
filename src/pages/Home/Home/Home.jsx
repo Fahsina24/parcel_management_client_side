@@ -6,8 +6,6 @@ import Statistics from "../Statistics/Statistics";
 const Home = () => {
   return (
     <div>
-      This is home
-      <div>Banner Section</div>
       <Banner></Banner>
       <div>Features Section</div>
       <Features></Features>
