@@ -62,7 +62,7 @@ const LogIn = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center pt-30 min-h-screen"
+      className="flex flex-col pt-30 items-center justify-center bg-cover bg-center opacity-90"
       style={{
         backgroundImage: `url(${bgPhoto})`,
       }}
@@ -96,11 +96,11 @@ const LogIn = () => {
             />
           </div>
           <div className="form-control mt-4">
-            <button className="btn rounded-sm text-lg md:text-2xl h-[60px] w-full border-none shadow-none bg-gradient-to-r from-pink-400 to-pink-300 focus:outline-2  hover:bg-pink-500 ">
+            <button className="btn rounded-sm text-lg md:text-2xl h-[60px] w-full border-none shadow-none bg-gradient-to-r from-pink-400 to-pink-300 focus:outline-2  hover:bg-pink-500 text-black ">
               {btnClicked ? <DiAptana className="animate-spin" /> : "LogIn"}
             </button>
           </div>
-          <div className="text-pink-300 text-center text-sm md:text-2xl">
+          <div className="text-pink-300 text-center text-sm md:text-xl">
             Don't have an account? Go to <Link to="/register">Sign Up</Link>
           </div>
           <p className="text-lg text-center"> or log in with </p>
@@ -112,6 +112,10 @@ const LogIn = () => {
             <FcGoogle className="rounded-full w-fit bg-white" /> Register with
             Google
           </button>
+
+          <Link className="text-lg text-center" to="/">
+            Back to <span className="text-pink-300 ">Home</span>
+          </Link>
         </form>
         <motion.img
           src={LogInPhoto}

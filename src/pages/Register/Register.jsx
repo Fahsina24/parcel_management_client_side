@@ -7,6 +7,9 @@ import { useState } from "react";
 import { imageUpload } from "../../api/imgApi";
 import axios from "axios";
 import { DiAptana } from "react-icons/di";
+import bgPhoto from "../../assets/logInPic/backgroundCover.jpg";
+import { motion } from "motion/react";
+import RegisterPhoto from "../../assets/RegisterLottie.jpeg";
 
 const Register = () => {
   const { createUser, signInWithGoogle, updateUserProfile } =
@@ -19,17 +22,20 @@ const Register = () => {
     setBtnClicked(true);
     setErrorMessage("");
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const displayName = e.target.name.value;
-    const image = e.target.image.files[0];
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const displayName = form.name.value;
+    const image = form.image.files[0];
+    const userType = form.userType.value;
     let photoURL;
-    // console.log(email, password, displayName, photoURL);
+    // console.log(userType);
     try {
       photoURL = await imageUpload(image);
-      console.log("Uploaded photoURL");
+      // console.log("Uploaded photoURL");
     } catch {
       setErrorMessage("Please upload photo to continue the registration");
+      setBtnClicked(false);
       return;
     }
 
@@ -56,6 +62,7 @@ const Register = () => {
         displayName,
         photoURL,
         email,
+        userType,
       });
       navigate("/");
       Swal.fire({
@@ -73,6 +80,7 @@ const Register = () => {
       });
     }
     setBtnClicked(false);
+    form.reset();
   };
   // Google Sign In
 
@@ -94,93 +102,106 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-20 min-h-screen">
-      <div className="card bg-base-100 w-full max-w-xl shrink-0 shadow-2xl h-550px mb-20">
-        <form className="card-body" onSubmit={handleRegister}>
-          <p className="text-center text-4xl">Register</p>
-          <p className="text-center text-xl text-blue-600 mt-4">
-            Register Now to continue
-          </p>
-          <div className="divider"></div>
+    <div
+      className="flex flex-col pt-30 items-center justify-center bg-cover bg-center opacity-90"
+      style={{
+        backgroundImage: `url(${bgPhoto})`,
+      }}
+    >
+      <div className="flex flex-row card bg-none border-4 border-cyan-200 shadow-2xl h-550px mb-20 w-[80%] justify-center items-center text-black font-medium">
+        <motion.img
+          src={RegisterPhoto}
+          className="w-[40%] h-[200px] object-contain bg-center bg-no-repeat rounded-3xl ml-4 hidden lg:flex"
+          animate={{
+            y: [30, 15, 30],
+          }}
+        />
 
-          <div className="form-control">
-            <label className="label mb-2">
-              <span className="label-text text-2xl font-bold ">Name</span>
+        <form className="card-body w-[60%]" onSubmit={handleRegister}>
+          <p className="text-center text-4xl mb-8">Register</p>
+          <div className="form-control flex flex-col">
+            <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
+              Name:
             </label>
             <input
               type="text"
               placeholder="Name"
               name="name"
-              className="input input-bordered text-2xl h-[60px]"
+              className="input input-bordered text-sm text-black md:text-2xl h-[60px] w-full"
               required
             />
           </div>
-
-          <div className="form-control">
-            <label className="label mb-2">
-              <span className="label-text text-2xl font-bold">Email</span>
+          <div className="form-control flex flex-col">
+            <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
+              Email:
             </label>
             <input
               type="email"
               placeholder="Enter your Email Address"
               name="email"
-              className="input input-bordered text-2xl h-[60px]"
+              className="input input-bordered text-sm text-black md:text-2xl h-[60px] w-full"
               required
             />
           </div>
-
-          <div className="form-control">
-            <label className="label mb-2">
-              <span className="label-text text-2xl font-bold">Image:</span>
+          <div className="form-control flex flex-col">
+            <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
+              Image:
             </label>
 
             <input
               type="file"
-              className="file-input file-input-success"
+              className="file-input file-input-success w-full border-none h-[60px] text-xl"
               name="image"
               accept="image/*"
             />
           </div>
-          <div className="form-control ">
-            <label className="label ">
-              <span className="label-text text-2xl font-bold">Password</span>
+          <div>
+            <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
+              User Type:
+            </label>
+            <select
+              defaultValue="Choose the type"
+              name="userType"
+              className="select text-sm text-black md:text-2xl h-[60px] w-full"
+            >
+              <option>User</option>
+              <option>DeliveryMen</option>
+            </select>
+          </div>
+          <div className="form-control flex flex-col">
+            <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
+              Password:
             </label>
             <input
               type="password"
               placeholder="Enter your Password"
               name="password"
-              className="input input-bordered h-[60px] text-2xl"
+              className="input input-bordered text-sm text-black md:text-2xl h-[60px] w-full"
               required
             />
           </div>
-          {errorMessage && <p className="text-red-600">{errorMessage}</p>}
-
+          {errorMessage && <p className="text-red-300">{errorMessage}</p>}
           <div className="form-control mt-8">
-            <button className="btn btn-primary rounded-full text-2xl h-[60px]">
+            <button className="btn rounded-sm text-lg md:text-2xl h-[60px] w-full border-none shadow-none bg-gradient-to-r from-pink-400 to-pink-300 focus:outline-2  hover:bg-pink-500 text-black">
               {btnClicked ? <DiAptana className="animate-spin" /> : "Register"}
             </button>
           </div>
 
-          <div className="divider">or Register with</div>
-          <div className="form-control mt-4">
-            <button
-              className="btn text-2xl h-[60px] rounded-full hover:bg-[#564CFC] hover:text-white"
-              onClick={handleGoogleSignIn}
-            >
-              <FcGoogle /> Register with Google
-            </button>
+          <div className="text-pink-300 text-center text-sm md:text-xl">
+            Already have an account? Go to <Link to="/log_in">Log In</Link>
           </div>
-        </form>
-
-        <p className="text-center mb-8 text-lg">
-          Already have an account?
-          <Link
-            to="/log_in"
-            className="label-text-alt link link-hover text-blue-700 text-lg ml-1"
+          <p className="text-lg text-center"> or log in with </p>
+          <button
+            className="btn text-sm md:text-2xl h-[60px] rounded-sm text-center  hover:bg-pink-400 hover:text-white border-none focus:outline-2 shadow-none"
+            onClick={handleGoogleSignIn}
           >
-            Login
+            <FcGoogle className="rounded-full w-fit bg-white" /> Register with
+            Google
+          </button>
+          <Link className="text-lg text-center" to="/">
+            Back to <span className="text-pink-300 ">Home</span>
           </Link>
-        </p>
+        </form>
       </div>
     </div>
   );
