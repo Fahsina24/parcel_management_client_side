@@ -1,6 +1,6 @@
 import { MdSearch } from "react-icons/md";
 import Lottie from "lottie-react";
-import bannerCover from "../../../assets/bannerCover.jpg";
+import bannerCover from "../../../assets/homePic/bannerCover.jpg";
 import bannerLottie from "../../../assets/homePic/bannerPageLottie.json";
 import { motion } from "motion/react";
 

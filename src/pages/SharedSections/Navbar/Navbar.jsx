@@ -1,7 +1,7 @@
 import { AiOutlineMenuFold } from "react-icons/ai";
 import { MdOutlineCircleNotifications } from "react-icons/md";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/navbarLogo.png";
+import logo from "../../../assets/navbarPic/navbarLogo.png";
 import { AuthContext } from "../../../provider/AuthProvider";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -82,7 +82,7 @@ const Navbar = () => {
           </ul>
         </div>
         <img className="w-15 h-15 rounded-full mr-2" src={logo} />
-        <a className="text-sm font-extrabold md:text-xl">SwiftDrop</a>
+        <ButtonDesign value="SwiftDrop"></ButtonDesign>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{NavOptions}</ul>

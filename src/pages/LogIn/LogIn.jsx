@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import bgPhoto from "../../assets/logInPic/backgroundCover.jpg";
 import Swal from "sweetalert2";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import axios from "axios";
 import { DiAptana } from "react-icons/di";
-
+import LogInPhoto from "../../assets/logInPic/logIn.png";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 const LogIn = () => {
   const { signInUser, signInWithGoogle } = useContext(AuthContext);
@@ -16,10 +18,12 @@ const LogIn = () => {
   const handleLogIn = async (e) => {
     setBtnClicked(true);
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
     try {
       await signInUser(email, password);
+      reset();
       navigate("/");
       Swal.fire({
         title: "Success",
@@ -36,6 +40,7 @@ const LogIn = () => {
       });
     }
     setBtnClicked(false);
+    form.reset();
   };
 
   const handleGoogleSignIn = async () => {
@@ -56,60 +61,65 @@ const LogIn = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-20 min-h-screen">
-      <div className="card bg-base-100 w-full max-w-xl shrink-0 shadow-2xl h-550px mb-20">
-        <form className="card-body" onSubmit={handleLogIn}>
-          <p className="text-center text-4xl">Login</p>
-          <div className="divider"></div>
-          <div className="form-control">
-            <label className="label mb-2">
-              <span className="label-text text-2xl font-bold">Email</span>
+    <div
+      className="flex flex-col items-center justify-center pt-30 min-h-screen"
+      style={{
+        backgroundImage: `url(${bgPhoto})`,
+      }}
+    >
+      <div className=" flex flex-row card bg-none border-4 border-cyan-200  shadow-2xl h-550px mb-20 w-[80%] justify-center items-center text-black font-medium ">
+        <form className="card-body w-10/12" onSubmit={handleLogIn}>
+          <p className="text-center text-4xl mb-8">Login</p>
+
+          <div className="form-control flex flex-col">
+            <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
+              Email:
             </label>
             <input
               type="email"
               placeholder="Enter your Email Address"
-              className="input input-bordered text-2xl h-[60px]"
+              className="input input-bordered text-sm text-black md:text-2xl h-[60px] w-full"
               required
               name="email"
             />
           </div>
-          <div className="form-control ">
-            <label className="label ">
-              <span className="label-text text-2xl font-bold">Password</span>
+          <div className="form-control flex flex-col">
+            <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
+              Password:
             </label>
             <input
               type="password"
               placeholder="Enter your password"
-              className="input input-bordered h-[60px] text-2xl"
+              className="input input-bordered text-sm text-black md:text-2xl h-[60px] w-full"
               required
               name="password"
             />
           </div>
           <div className="form-control mt-4">
-            <button className="btn btn-primary rounded-full text-2xl h-[60px]">
+            <button className="btn rounded-sm text-lg md:text-2xl h-[60px] w-full border-none shadow-none bg-gradient-to-r from-pink-400 to-pink-300 focus:outline-2  hover:bg-pink-500 ">
               {btnClicked ? <DiAptana className="animate-spin" /> : "LogIn"}
             </button>
           </div>
-          <div className="divider">or Log in with</div>
-          <div className="form-control mt-4">
-            <button
-              className="btn text-2xl h-[60px] rounded-full hover:bg-[#564CFC] hover:text-white"
-              onClick={handleGoogleSignIn}
-            >
-              <FcGoogle /> Log in with Google
-            </button>
+          <div className="text-pink-300 text-center text-sm md:text-2xl">
+            Don't have an account? Go to <Link to="/register">Sign Up</Link>
           </div>
+          <p className="text-lg text-center"> or log in with </p>
 
-          <p className="text-center mt-4 mb-8 text-lg">
-            Don't have an account?
-            <Link
-              to="/register"
-              className="label-text-alt link link-hover text-blue-700 text-lg ml-1"
-            >
-              Sign Up
-            </Link>
-          </p>
+          <button
+            className="btn text-sm md:text-2xl h-[60px] rounded-sm text-center  hover:bg-pink-400 hover:text-white border-none focus:outline-2 shadow-none"
+            onClick={handleGoogleSignIn}
+          >
+            <FcGoogle className="rounded-full w-fit bg-white" /> Register with
+            Google
+          </button>
         </form>
+        <motion.img
+          src={LogInPhoto}
+          className="w-[60%] h-[300px] object-contain bg-center bg-no-repeat rounded-3xl mr-4 hidden lg:flex"
+          animate={{
+            y: [30, 15, 30],
+          }}
+        />
       </div>
     </div>
   );

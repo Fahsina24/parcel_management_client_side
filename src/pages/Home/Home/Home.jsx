@@ -7,12 +7,13 @@ const Home = () => {
   return (
     <div>
       <Banner></Banner>
-      <div>Features Section</div>
-      <Features></Features>
-      <div>Statistics Section</div>
-      <Statistics></Statistics>
-      <div>Top Delivery Mens </div>
-      <DeliveryCard></DeliveryCard>
+      <div className="bg-[#5B98CD]">
+        <Features></Features>
+        <div>Statistics Section</div>
+        <Statistics></Statistics>
+        <div>Top Delivery Mens </div>
+        <DeliveryCard></DeliveryCard>
+      </div>
     </div>
   );
 };
