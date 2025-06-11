@@ -28,15 +28,12 @@ const Navbar = () => {
   };
   const NavOptions = (
     <div className="flex gap-4 flex-col lg:flex-row ">
-      <li>
+      <Link to="/">
         <ButtonDesign value="Home"></ButtonDesign>
-      </li>
-      <li>
+      </Link>
+      <Link to="/dashboard/parcelBooking">
         <ButtonDesign value="DashBoard"></ButtonDesign>
-      </li>
-      <li>
-        <ButtonDesign value="DashBoard"></ButtonDesign>
-      </li>
+      </Link>
     </div>
   );
 

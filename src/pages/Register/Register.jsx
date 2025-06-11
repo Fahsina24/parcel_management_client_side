@@ -41,6 +41,7 @@ const Register = () => {
 
     if (password.length < 6) {
       setErrorMessage("Password should be atleast 6 character or more");
+      setBtnClicked(false);
       return;
     }
     const passValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$/;
@@ -48,6 +49,7 @@ const Register = () => {
       setErrorMessage(
         "Atleast one uppercase letter, one lowercase letter, one digit and minimum length will be 6 or more "
       );
+      setBtnClicked(false);
       return;
     }
 
@@ -85,12 +87,14 @@ const Register = () => {
   // Google Sign In
 
   const handleGoogleSignIn = async () => {
+    const userType = "User";
     const result = await signInWithGoogle();
     const { displayName, photoURL, email } = result.user;
     await axios.post(`http://localhost:3000/users/${email}`, {
       displayName,
       photoURL,
       email,
+      userType,
     });
     Swal.fire({
       title: "Success",

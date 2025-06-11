@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div>
       <Banner></Banner>
-      <div className="bg-[#5B98CD]">
+      <div className="bg-[#5B98CD] pb-20">
         <Features></Features>
         <div>Statistics Section</div>
         <Statistics></Statistics>

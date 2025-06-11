@@ -44,12 +44,14 @@ const LogIn = () => {
   };
 
   const handleGoogleSignIn = async () => {
+    const userType = "User";
     const result = await signInWithGoogle();
     const { displayName, photoURL, email } = result.user;
     await axios.post(`http://localhost:3000/users/${email}`, {
       displayName,
       photoURL,
       email,
+      userType,
     });
     Swal.fire({
       title: "Success",
@@ -68,7 +70,7 @@ const LogIn = () => {
       }}
     >
       <div className=" flex flex-row card bg-none border-4 border-cyan-200  shadow-2xl h-550px mb-20 w-[80%] justify-center items-center text-black font-medium ">
-        <form className="card-body w-10/12" onSubmit={handleLogIn}>
+        <form className="card-body w-[80%]" onSubmit={handleLogIn}>
           <p className="text-center text-4xl mb-8">Login</p>
 
           <div className="form-control flex flex-col">

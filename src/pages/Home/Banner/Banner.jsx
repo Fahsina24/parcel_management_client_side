@@ -13,7 +13,7 @@ const Banner = () => {
       }}
     >
       <div className="relative z-10 max-w-6xl w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center">
-        <div className="text-white md:w-1/2 space-y-5 ">
+        <div className="text-white md:w-10/12 space-y-5 ">
           <motion.h2
             animate={{
               x: [20, 0],
@@ -31,14 +31,14 @@ const Banner = () => {
           <p className="text-lg text-gray-200 animate-bounce">
             Ideal for online retail or delivery services.
           </p>
-          <div className="flex items-center bg-white rounded-md  max-w-md">
-            <span className="p-3 text-gray-600">
+          <div className="flex items-center w-full bg-white rounded-md  ">
+            <p className="p-3 text-gray-600">
               <MdSearch size={22} />
-            </span>
+            </p>
             <input
               type="search"
               placeholder="Enter your post code to get your product delivered"
-              className="flex-1 px-2 py-2 focus:outline-none text-gray-800"
+              className=" w-fit px-2 py-2 focus:outline-none text-gray-800 md:h-20 h-10 lg:h-30 text-sm lg:text-xl  "
             />
           </div>
         </div>
