@@ -4,7 +4,6 @@ import Home from "../pages/Home/Home/Home";
 import LogIn from "../pages/LogIn/LogIn";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Register from "../pages/Register/Register";
-import DashboardLayout from "../Layout/Dashboard";
 import ParcelBooking from "../pages/Dashboard/User/ParcelBooking/ParcelBooking";
 import MyParcels from "../pages/Dashboard/User/MyParcels/MyParcels";
 import MyProfile from "../pages/Dashboard/User/MyProfile/MyProfile";
@@ -15,6 +14,7 @@ import AllDeliveryMen from "../pages/Dashboard/Admin/AllDeliveryMen/AllDeliveryM
 import AllParcels from "../pages/Dashboard/Admin/AllParcels/AllParcels";
 import Statistics from "../pages/Dashboard/Admin/Statistics/Statistics";
 import Dashboard from "../Layout/Dashboard";
+import PrivateRoute from "../Route/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -42,39 +42,76 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "admin/allUsers",
-        element: <AllUsers></AllUsers>,
+        element: (
+          <PrivateRoute>
+            <AllUsers></AllUsers>
+          </PrivateRoute>
+        ),
       },
       {
         path: "admin/allDeliveryMen",
-        element: <AllDeliveryMen></AllDeliveryMen>,
+        element: (
+          <PrivateRoute>
+            <AllDeliveryMen></AllDeliveryMen>
+          </PrivateRoute>
+        ),
       },
       {
         path: "admin/allParcels",
-        element: <AllParcels></AllParcels>,
+        element: (
+          <PrivateRoute>
+            <AllParcels></AllParcels>
+          </PrivateRoute>
+        ),
+        loader: () => fetch(`http://localhost:3000/allParcels`),
       },
       {
         path: "admin/statistics",
-        element: <Statistics></Statistics>,
+        element: (
+          <PrivateRoute>
+            <Statistics></Statistics>
+          </PrivateRoute>
+        ),
       },
       {
         path: "parcelBooking",
-        element: <ParcelBooking></ParcelBooking>,
+        element: (
+          <PrivateRoute>
+            <ParcelBooking></ParcelBooking>
+          </PrivateRoute>
+        ),
       },
       {
         path: "myParcels",
-        element: <MyParcels></MyParcels>,
+        element: (
+          <PrivateRoute>
+            <MyParcels></MyParcels>
+          </PrivateRoute>
+        ),
       },
       {
         path: "myProfile",
-        element: <MyProfile></MyProfile>,
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "deliveryMen/deliveryLists",
-        element: <MyDeliveryList></MyDeliveryList>,
+        element: (
+          <PrivateRoute>
+            <MyDeliveryList></MyDeliveryList>
+          </PrivateRoute>
+        ),
       },
       {
         path: "deliveryMen/myReviews",
-        element: <MyReviews></MyReviews>,
+        element: (
+          <PrivateRoute>
+            <MyReviews></MyReviews>
+          </PrivateRoute>
+        ),
       },
     ],
   },

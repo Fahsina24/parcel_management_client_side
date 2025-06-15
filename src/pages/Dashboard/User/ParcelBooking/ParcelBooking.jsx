@@ -4,7 +4,7 @@ import { useContext } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
+x;
 const ParcelBooking = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -24,8 +24,8 @@ const ParcelBooking = () => {
   const handleParcelBooking = async (e) => {
     e.preventDefault();
     const status = "pending";
+    let bookingDate;
     const form = e.target;
-
     const parcelData = {
       buyerName: user?.displayName,
       buyerEmail: user?.email,
@@ -40,6 +40,7 @@ const ParcelBooking = () => {
       longitude: form.lon.value,
       price,
       status,
+      bookingDate: new Date().toISOString().split("T")[0],
     };
 
     const parcelInfo = await axios.post(
@@ -88,9 +89,9 @@ const ParcelBooking = () => {
             <input
               name="userPhoneNo"
               type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{5}"
+              pattern="[0-9]{11}"
               required
-              placeholder="Format: 123-456-78901"
+              placeholder="Format:12345678901"
               className="w-full p-2 border rounded mb-2"
             />
           </div>
@@ -143,7 +144,8 @@ const ParcelBooking = () => {
             <input
               name="receiverPhone"
               type="tel"
-              placeholder="Format: 123-456-78901"
+              pattern="[0-9]{11}"
+              placeholder="Format: 12345678901"
               required
               className="w-full p-2 border rounded mb-2"
             />
