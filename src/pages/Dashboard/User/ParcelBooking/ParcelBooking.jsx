@@ -4,7 +4,7 @@ import { useContext } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-x;
+
 const ParcelBooking = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);

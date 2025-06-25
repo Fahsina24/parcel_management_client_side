@@ -11,8 +11,12 @@ import { MdReviews } from "react-icons/md";
 import { IoIosHome } from "react-icons/io";
 import Navbar from "../pages/SharedSections/Navbar/Navbar";
 import Footer from "../pages/SharedSections/Footer/Footer";
+import { AuthContext } from "../provider/AuthProvider";
+import { useContext } from "react";
 
 const Dashboard = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <div className="max-w-7xl mx-auto text-2xl">
       <Navbar></Navbar>
@@ -64,7 +68,7 @@ const Dashboard = () => {
           </div>
           <div>
             <Link
-              to="myParcels"
+              to={`myParcels/${user?.email}`}
               className="flex justify-center items-center gap-2 font-semibold"
             >
               <BsBoxFill /> My Parcels

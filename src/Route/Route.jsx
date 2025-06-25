@@ -15,6 +15,7 @@ import AllParcels from "../pages/Dashboard/Admin/AllParcels/AllParcels";
 import Statistics from "../pages/Dashboard/Admin/Statistics/Statistics";
 import Dashboard from "../Layout/Dashboard";
 import PrivateRoute from "../Route/PrivateRoute";
+import UpdateParcels from "../pages/Dashboard/User/UpdateParcels/UpdateParcels";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+
   {
     path: "/dashboard",
     element: <Dashboard></Dashboard>,
@@ -82,12 +84,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "myParcels",
+        path: "myParcels/:email",
         element: (
           <PrivateRoute>
             <MyParcels></MyParcels>
           </PrivateRoute>
         ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/myParcels/${params.email}`),
       },
       {
         path: "myProfile",
@@ -114,5 +118,15 @@ export const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/update/:id",
+    element: (
+      <PrivateRoute>
+        <UpdateParcels></UpdateParcels>
+      </PrivateRoute>
+    ),
+    loader: ({ params }) =>
+      fetch(`http://localhost:3000/singleParcel/${params.id}`),
   },
 ]);
