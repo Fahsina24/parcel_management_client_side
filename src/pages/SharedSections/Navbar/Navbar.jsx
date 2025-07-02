@@ -46,10 +46,10 @@ const Navbar = () => {
         {user?.displayName}
       </p>
       <Link
-        to="dashboard"
-        className="btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
+        to="/dashboard/parcelBooking"
+        className=" btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
       >
-        Dashboard
+        DashBoard"
       </Link>
 
       <div
@@ -96,7 +96,7 @@ const Navbar = () => {
                   <img
                     src={user?.photoURL}
                     alt="Profile Photo"
-                    className="rounded-full object-cover w-12"
+                    className="rounded-full object-cover w-12 h-12 border-2 border-gray-600"
                   />
                 </div>
                 <ul

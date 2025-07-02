@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
-import { AuthContext } from "../../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 
 const MyParcels = () => {
-  const { user } = useContext(AuthContext);
   const myParcels = useLoaderData();
   const [listedData, setListedData] = useState(myParcels);
   const handleCancel = (id) => {
