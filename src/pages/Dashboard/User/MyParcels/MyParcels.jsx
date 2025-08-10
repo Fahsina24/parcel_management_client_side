@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 
 const MyParcels = () => {
   const myParcels = useLoaderData();
+  console.log(myParcels);
   const [listedData, setListedData] = useState(myParcels);
   const handleCancel = (id) => {
     Swal.fire({
@@ -60,9 +61,9 @@ const MyParcels = () => {
               <th>{index + 1}</th>
               <td>{parcel.parcelType}</td>
               <td>{parcel.deliveryDate}</td>
-              <td>Approximate Delivery Date</td>
+              <td>{parcel?.approximateDeliveryDate}</td>
               <td>{parcel.bookingDate}</td>
-              <td>DeliveryMenId</td>
+              <td>{parcel?.deliveryMenId}</td>
               <td>{parcel.status}</td>
               <td>
                 {parcel.status == "pending" ? (

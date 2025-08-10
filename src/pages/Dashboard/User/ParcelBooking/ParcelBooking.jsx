@@ -52,7 +52,7 @@ const ParcelBooking = () => {
       text: "Parcel booking is done.",
       icon: "success",
     });
-    navigate("/dashboard/myParcels");
+    navigate(`/dashboard/myParcels/${user.email}`);
 
     // console.log(" Parcel Booking Info:", parcelData);
 

@@ -65,7 +65,6 @@ export const router = createBrowserRouter([
             <AllParcels></AllParcels>
           </PrivateRoute>
         ),
-        loader: () => fetch(`http://localhost:3000/allParcels`),
       },
       {
         path: "admin/statistics",

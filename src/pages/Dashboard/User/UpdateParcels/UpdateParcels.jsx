@@ -7,7 +7,7 @@ const UpdateParcels = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const parcelInfo = useLoaderData();
-  console.log(parcelInfo);
+  // console.log(parcelInfo);
 
   const [buyerPhoneNo, setBuyerPhoneNo] = useState(parcelInfo?.buyerPhoneNo);
   const [deliveryAddress, setDeliveryAddress] = useState(
@@ -38,32 +38,45 @@ const UpdateParcels = () => {
 
   const handleUpdateParcel = async (e) => {
     e.preventDefault();
+    if (
+      buyerPhoneNo != parcelInfo?.buyerPhoneNo ||
+      deliveryAddress != parcelInfo?.deliveryAddress ||
+      deliveryDate != parcelInfo?.deliveryDate ||
+      latitude != parcelInfo?.latitude ||
+      longitude != parcelInfo?.longitude ||
+      parcelType != parcelInfo?.parcelType ||
+      parcelWeight != parcelInfo?.parcelWeight ||
+      receiverName != parcelInfo?.receiverName ||
+      receiverPhoneNo != parcelInfo?.receiverPhoneNo
+    ) {
+      const updatedParcel = {
+        buyerEmail: parcelInfo?.buyerEmail,
+        buyerName: parcelInfo?.buyerName,
+        buyerPhoneNo,
+        deliveryAddress,
+        deliveryDate,
+        latitude,
+        longitude,
+        parcelType,
+        parcelWeight,
+        receiverName,
+        receiverPhoneNo,
+        status,
+        price,
+      };
 
-    const updatedParcel = {
-      buyerEmail: parcelInfo?.buyerEmail,
-      buyerName: parcelInfo?.buyerName,
-      buyerPhoneNo,
-      deliveryAddress,
-      deliveryDate,
-      latitude,
-      longitude,
-      parcelType,
-      parcelWeight,
-      receiverName,
-      receiverPhoneNo,
-    };
-
-    try {
-      await axios.patch(`http://localhost:3000/update/${id}`, updatedParcel);
-      Swal.fire({
-        title: "Success",
-        text: "Parcel information updated successfully!",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-      navigate("/");
-    } catch (error) {
-      console.error(error);
+      try {
+        await axios.patch(`http://localhost:3000/update/${id}`, updatedParcel);
+        Swal.fire({
+          title: "Success",
+          text: "Parcel information updated successfully!",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        navigate(`/dashboard/myParcels/${parcelInfo?.buyerEmail}`);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -199,14 +212,11 @@ const UpdateParcels = () => {
           </div>
 
           <div className="form-control flex flex-col">
-            <label className="label font-semibold text-gray-700">
-              Price ($)
-            </label>
+            <label className="label font-semibold text-gray-700">Price</label>
             <input
               type="number"
               step="any"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              defaultValue={price}
               className="input input-bordered bg-gray-100 mt-2"
               readOnly
             />
