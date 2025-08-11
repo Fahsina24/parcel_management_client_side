@@ -9,6 +9,7 @@ const AllDeliveryMen = () => {
     queryKey: ["allDeliveryMenDetails"],
     queryFn: async () => {
       const res = await fetch("http://localhost:3000/userType/deliveryMen");
+      refetch();
       return res.json();
     },
   });

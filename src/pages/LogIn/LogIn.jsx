@@ -23,14 +23,13 @@ const LogIn = () => {
     const password = form.password.value;
     try {
       await signInUser(email, password);
-      reset();
-      navigate("/");
       Swal.fire({
         title: "Success",
         text: "Sign is successful",
         icon: "success",
         confirmButtonText: "Cool",
       });
+      navigate("/");
     } catch (err) {
       Swal.fire({
         title: "Failed to Log In",
@@ -38,9 +37,9 @@ const LogIn = () => {
         icon: "error",
         confirmButtonText: "Close",
       });
+      setBtnClicked(false);
+      form.reset();
     }
-    setBtnClicked(false);
-    form.reset();
   };
 
   const handleGoogleSignIn = async () => {
