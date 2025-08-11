@@ -26,6 +26,7 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
     const displayName = form.name.value;
+    const buyerPhoneNo = form.userPhoneNo.value;
     const image = form.image.files[0];
     const userType = form.userType.value;
     let photoURL;
@@ -65,6 +66,7 @@ const Register = () => {
         photoURL,
         email,
         userType,
+        buyerPhoneNo,
       });
       navigate("/");
       Swal.fire({
@@ -151,7 +153,6 @@ const Register = () => {
             <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
               Image:
             </label>
-
             <input
               type="file"
               className="file-input file-input-success w-full border-none h-[60px] text-xl"
@@ -185,6 +186,18 @@ const Register = () => {
             />
           </div>
           {errorMessage && <p className="text-red-300">{errorMessage}</p>}
+          <div className="form-control flex flex-col">
+            <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
+              Phone Number:
+            </label>
+            <input
+              type="tel"
+              pattern="[0-9]{11}"
+              placeholder="Enter your Number (Format: 12345678901)"
+              name="userPhoneNo"
+              className="input input-bordered text-sm text-black md:text-2xl h-[60px] w-full"
+            />
+          </div>
           <div className="form-control mt-8">
             <button className="btn rounded-sm text-lg md:text-2xl h-[60px] w-full border-none shadow-none bg-gradient-to-r from-pink-400 to-pink-300 focus:outline-2  hover:bg-pink-500 text-black">
               {btnClicked ? <DiAptana className="animate-spin" /> : "Register"}

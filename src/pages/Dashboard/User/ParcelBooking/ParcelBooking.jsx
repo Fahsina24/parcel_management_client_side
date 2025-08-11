@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const ParcelBooking = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const [userPhone, setUserPhone] = useState("");
   const [price, setPrice] = useState("");
   const [weight, setWeight] = useState("");
 
@@ -21,15 +22,41 @@ const ParcelBooking = () => {
     }
   }, [weight]);
 
+  // New useEffect to fetch user phone number
+  useEffect(() => {
+    async function fetchUserPhone() {
+      try {
+        const res = await fetch(`http://localhost:3000/users/${user?.email}`);
+        const data = await res.json();
+        if (data) {
+          data.map((singleData) => {
+            if (singleData.buyerPhoneNo) {
+              setUserPhone(singleData.buyerPhoneNo);
+            } else {
+              setUserPhone("");
+            }
+          });
+        }
+      } catch (error) {
+        setUserPhone(" ");
+        console.error("Failed to fetch user phone", error);
+      }
+    }
+    if (user?.email) {
+      fetchUserPhone();
+    }
+  }, []);
+
   const handleParcelBooking = async (e) => {
     e.preventDefault();
+
     const status = "pending";
     let bookingDate;
     const form = e.target;
     const parcelData = {
       buyerName: user?.displayName,
       buyerEmail: user?.email,
-      buyerPhoneNo: form.userPhoneNo.value,
+      buyerPhoneNo: form.userPhoneNo.value || userPhone,
       parcelType: form.parcelType.value,
       parcelWeight: form.weight.value,
       receiverName: form.receiverName.value,
@@ -90,9 +117,11 @@ const ParcelBooking = () => {
               name="userPhoneNo"
               type="tel"
               pattern="[0-9]{11}"
-              required
               placeholder="Format:12345678901"
+              value={userPhone}
+              onChange={(e) => setUserPhone(e.target.value)}
               className="w-full p-2 border rounded mb-2"
+              readOnly={Boolean(userPhone)}
             />
           </div>
 

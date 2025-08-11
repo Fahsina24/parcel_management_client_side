@@ -100,7 +100,7 @@ const AllParcels = () => {
                 <th>Name</th>
                 <th>Phone No</th>
                 <th>Booking Date</th>
-                <th>Delivery Date</th>
+                <th>Requested Delivery Date</th>
                 <th>Cost</th>
                 <th>Status</th>
                 <th>Manage</th>
