@@ -2,14 +2,13 @@ import { AiOutlineMenuFold } from "react-icons/ai";
 import { MdOutlineCircleNotifications } from "react-icons/md";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/navbarPic/navbarLogo.png";
-import { AuthContext } from "../../../provider/AuthProvider";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import ButtonDesign from "../BtnDesign/ButtonDesign";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
-  const { user, signOutUser } = useContext(AuthContext);
+  const { user, signOutUser } = useAuth();
 
   const navigate = useNavigate();
   const handleSignOut = () => {

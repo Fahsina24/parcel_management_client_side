@@ -2,8 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const AllUsers = () => {
+  const [userTypes, setUserTypes] = useState({
+    role: "somethingElse",
+    visible: true,
+  });
+  const axiosSecure = useAxiosSecure();
   const {
     data: allUsers,
     isPending,
@@ -11,36 +17,49 @@ const AllUsers = () => {
   } = useQuery({
     queryKey: ["allUsersDetails"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:3000/allUsersDetails");
-      return res.json();
+      const res = await axiosSecure.get("/allUsersDetails");
+      return res.data;
     },
   });
 
   if (isPending) return "Loading...";
 
   const handleUserType = (id, name, value) => {
-    console.log(value);
-    console.log(value.userType);
-    Swal.fire({
-      title: "Are you sure you want to make this person Admin?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        if (value.userType === "Admin") {
-          axios.patch(`http://localhost:3000/handleUserType/${id}`, value);
+    // console.log(value);
+    // console.log(value.userType);
+    if (value.userType == "Admin") {
+      Swal.fire({
+        title: "Are you sure you want to make this person Admin?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure.patch(`/handleUserType/${id}`, value);
           Swal.fire({
             title: "Congrats",
             text: `${name} became an Admin now.`,
             icon: "success",
             confirmButtonText: "OK",
           });
-          refetch();
-        } else if (value.userType === "DeliveryMen") {
-          axios.patch(`http://localhost:3000/handleUserType/${id}`, value);
+          setUserTypes({
+            visible: false,
+          });
+        }
+      });
+    } else if (value.userType === "DeliveryMen") {
+      Swal.fire({
+        title: "Are you sure you want to make this person DeliveryMen?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure.patch(`/handleUserType/${id}`, value);
           Swal.fire({
             title: "Congrats",
             text: `${name} became a DeliveryMen now.`,
@@ -48,10 +67,12 @@ const AllUsers = () => {
             confirmButtonText: "OK",
           });
 
-          refetch();
+          setUserTypes({
+            visible: false,
+          });
         }
-      }
-    });
+      });
+    }
   };
 
   return (
@@ -85,7 +106,8 @@ const AllUsers = () => {
                   <td>Booked Parcels Quantity</td>
                   <td>Total Spent</td>
                   {man.userType !== "DeliveryMen" &&
-                  man.userType !== "Admin" ? (
+                  man.userType !== "Admin" &&
+                  userTypes.visible ? (
                     <td>
                       <button
                         className="btn m-4"
@@ -106,7 +128,8 @@ const AllUsers = () => {
                     </td>
                   )}
                   {man.userType !== "DeliveryMen" &&
-                  man.userType !== "Admin" ? (
+                  man.userType !== "Admin" &&
+                  userTypes.visible ? (
                     <td>
                       <button
                         className="btn m-4"

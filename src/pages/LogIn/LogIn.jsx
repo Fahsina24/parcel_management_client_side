@@ -9,9 +9,11 @@ import { DiAptana } from "react-icons/di";
 import LogInPhoto from "../../assets/logInPic/logIn.png";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const LogIn = () => {
   const { signInUser, signInWithGoogle } = useContext(AuthContext);
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const [btnClicked, setBtnClicked] = useState(false);
 
@@ -46,7 +48,7 @@ const LogIn = () => {
     const userType = "User";
     const result = await signInWithGoogle();
     const { displayName, photoURL, email } = result.user;
-    await axios.post(`http://localhost:3000/users/${email}`, {
+    await axiosPublic.post(`/users/${email}`, {
       displayName,
       photoURL,
       email,

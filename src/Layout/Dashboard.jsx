@@ -16,6 +16,7 @@ import { useContext } from "react";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
+  const isAdmin = true;
 
   return (
     <div className="max-w-7xl mx-auto text-2xl">
@@ -23,66 +24,73 @@ const Dashboard = () => {
       {/* SideBar */}
       <div className="flex gap-2 space-y-8">
         <div className="min-h-screen w-[30%] bg-yellow-500 pt-40 space-y-6 pb-40">
-          {/* admin sections */}
-          <div>
-            <Link
-              to="admin/allUsers"
-              className="flex justify-center items-center gap-2  font-semibold"
-            >
-              <PiUsersThreeFill /> All Users
-            </Link>
-          </div>
-          <div>
-            <Link
-              to="admin/allDeliveryMen"
-              className="flex justify-center items-center gap-2 font-semibold"
-            >
-              <FaUsersGear /> All Delivery Men
-            </Link>
-          </div>
-          <div>
-            <Link
-              to="admin/allParcels"
-              className="flex justify-center items-center gap-2 font-semibold"
-            >
-              <FaBoxesStacked /> All Parcels
-            </Link>
-          </div>
-          <div>
-            <Link
-              to="admin/statistics"
-              className="flex justify-center items-center gap-2 font-semibold"
-            >
-              <FcStatistics /> Statistics
-            </Link>
-          </div>
-          {/* user sidebar */}
-          <div>
-            <Link
-              to="parcelBooking"
-              className="flex justify-center items-center gap-2 font-semibold"
-            >
-              <FaPeopleCarryBox />
-              Book A Parcel
-            </Link>
-          </div>
-          <div>
-            <Link
-              to={`myParcels/${user?.email}`}
-              className="flex justify-center items-center gap-2 font-semibold"
-            >
-              <BsBoxFill /> My Parcels
-            </Link>
-          </div>
-          <div>
-            <Link
-              to="myProfile"
-              className="flex justify-center items-center gap-2 font-semibold"
-            >
-              <CgProfile />
-              My Profile
-            </Link>
-          </div>
+          {isAdmin ? (
+            <>
+              {/* admin sections */}
+              <div>
+                <Link
+                  to="admin/allUsers"
+                  className="flex justify-center items-center gap-2  font-semibold"
+                >
+                  <PiUsersThreeFill /> All Users
+                </Link>
+              </div>
+              <div>
+                <Link
+                  to="admin/allDeliveryMen"
+                  className="flex justify-center items-center gap-2 font-semibold"
+                >
+                  <FaUsersGear /> All Delivery Men
+                </Link>
+              </div>
+              <div>
+                <Link
+                  to="admin/allParcels"
+                  className="flex justify-center items-center gap-2 font-semibold"
+                >
+                  <FaBoxesStacked /> All Parcels
+                </Link>
+              </div>
+              <div>
+                <Link
+                  to="admin/statistics"
+                  className="flex justify-center items-center gap-2 font-semibold"
+                >
+                  <FcStatistics /> Statistics
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* user sidebar */}
+              <div>
+                <Link
+                  to="parcelBooking"
+                  className="flex justify-center items-center gap-2 font-semibold"
+                >
+                  <FaPeopleCarryBox />
+                  Book A Parcel
+                </Link>
+              </div>
+              <div>
+                <Link
+                  to={`myParcels/${user?.email}`}
+                  className="flex justify-center items-center gap-2 font-semibold"
+                >
+                  <BsBoxFill /> My Parcels
+                </Link>
+              </div>
+              <div>
+                <Link
+                  to="myProfile"
+                  className="flex justify-center items-center gap-2 font-semibold"
+                >
+                  <CgProfile />
+                  My Profile
+                </Link>
+              </div>
+            </>
+          )}
 
           {/* Delivery Men info */}
           <div>

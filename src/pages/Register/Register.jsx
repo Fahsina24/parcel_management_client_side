@@ -10,8 +10,10 @@ import { DiAptana } from "react-icons/di";
 import bgPhoto from "../../assets/logInPic/backgroundCover.jpg";
 import { motion } from "motion/react";
 import RegisterPhoto from "../../assets/RegisterLottie.jpeg";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Register = () => {
+  const axiosPublic = useAxiosPublic();
   const { createUser, signInWithGoogle, updateUserProfile } =
     useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
@@ -61,20 +63,25 @@ const Register = () => {
       // const user = result.user;
       await updateUserProfile(displayName, photoURL);
       // save user in db
-      await axios.post(`http://localhost:3000/users/${email}`, {
-        displayName,
-        photoURL,
-        email,
-        userType,
-        buyerPhoneNo,
-      });
-      navigate("/");
-      Swal.fire({
-        title: "Registration Successful",
-        text: "Logged In",
-        icon: "success",
-        confirmButtonText: "Close",
-      });
+      await axiosPublic
+        .post(`/users/${email}`, {
+          displayName,
+          photoURL,
+          email,
+          userType,
+          buyerPhoneNo,
+        })
+        .then((res) => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              title: "Registration Successful",
+              text: "Logged In",
+              icon: "success",
+              confirmButtonText: "Close",
+            });
+            navigate("/");
+          }
+        });
     } catch (err) {
       Swal.fire({
         title: "Failed to Register",
@@ -92,7 +99,7 @@ const Register = () => {
     const userType = "User";
     const result = await signInWithGoogle();
     const { displayName, photoURL, email } = result.user;
-    await axios.post(`http://localhost:3000/users/${email}`, {
+    await axiosPublic.post(`/users/${email}`, {
       displayName,
       photoURL,
       email,
