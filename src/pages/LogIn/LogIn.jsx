@@ -96,6 +96,7 @@ const LogIn = () => {
               className="input input-bordered text-sm text-black md:text-2xl h-[60px] w-full"
               required
               name="password"
+              autoComplete="username"
             />
           </div>
           <div className="form-control mt-4">

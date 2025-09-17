@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import ButtonDesign from "../BtnDesign/ButtonDesign";
 import useAuth from "../../../hooks/useAuth";
+import useUserRole from "../../../hooks/useUserRole";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
-
+  const [userRole, isLoading] = useUserRole();
   const navigate = useNavigate();
   const handleSignOut = () => {
     signOutUser()
@@ -30,9 +31,27 @@ const Navbar = () => {
       <Link to="/">
         <ButtonDesign value="Home"></ButtonDesign>
       </Link>
-      <Link to="/dashboard/parcelBooking">
-        <ButtonDesign value="DashBoard"></ButtonDesign>
-      </Link>
+      {user && userRole === "Admin" && (
+        <>
+          <Link to="/dashboard/admin/statistics">
+            <ButtonDesign value="DashBoard"></ButtonDesign>
+          </Link>
+        </>
+      )}
+      {user && userRole === "DeliveryMen" && (
+        <>
+          <Link to="/dashboard/deliveryMen/deliveryLists">
+            <ButtonDesign value="DashBoard"></ButtonDesign>
+          </Link>
+        </>
+      )}
+      {user && userRole === "User" && (
+        <>
+          <Link to="/dashboard/parcelBooking">
+            <ButtonDesign value="DashBoard"></ButtonDesign>
+          </Link>
+        </>
+      )}
     </div>
   );
 

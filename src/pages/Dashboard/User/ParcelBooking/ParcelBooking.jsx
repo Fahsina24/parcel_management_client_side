@@ -4,13 +4,16 @@ import { useContext } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const ParcelBooking = () => {
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [userPhone, setUserPhone] = useState("");
   const [price, setPrice] = useState("");
   const [weight, setWeight] = useState("");
+  // console.log(user?.email);
 
   useEffect(() => {
     if (weight) {
@@ -26,10 +29,12 @@ const ParcelBooking = () => {
   useEffect(() => {
     async function fetchUserPhone() {
       try {
-        const res = await fetch(`http://localhost:3000/users/${user?.email}`);
-        const data = await res.json();
-        if (data) {
-          data.map((singleData) => {
+        const res = await axiosSecure.get(
+          `http://localhost:3000/users/${user?.email}`
+        );
+        // console.log(res.data);
+        if (res.data) {
+          res.data.map((singleData) => {
             if (singleData.buyerPhoneNo) {
               setUserPhone(singleData.buyerPhoneNo);
             } else {
@@ -70,7 +75,7 @@ const ParcelBooking = () => {
       bookingDate: new Date().toISOString().split("T")[0],
     };
 
-    const parcelInfo = await axios.post(
+    const parcelInfo = await axiosSecure.post(
       "http://localhost:3000/bookedParcels",
       parcelData
     );
@@ -79,7 +84,7 @@ const ParcelBooking = () => {
       text: "Parcel booking is done.",
       icon: "success",
     });
-    navigate(`/dashboard/myParcels/${user.email}`);
+    navigate(`/dashboard/myParcels/${user?.email}`);
 
     // console.log(" Parcel Booking Info:", parcelData);
 

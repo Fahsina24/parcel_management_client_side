@@ -1,12 +1,22 @@
 import Swal from "sweetalert2";
 import { useContext, useEffect, useState } from "react";
-import { useLoaderData, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const UpdateParcels = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const parcelInfo = useLoaderData();
+  const [parcelInfo, setParcelInfo] = useState([]);
+  const axiosSecure = useAxiosSecure();
+
+  useEffect(() => {
+    axiosSecure
+      .get(`/singleParcel/${id}`)
+      .then((res) => setParcelInfo(res.data))
+      .catch((err) => console.error(err));
+  }, [id, axiosSecure]);
+
   // console.log(parcelInfo);
 
   const [buyerPhoneNo, setBuyerPhoneNo] = useState(parcelInfo?.buyerPhoneNo);
@@ -23,8 +33,7 @@ const UpdateParcels = () => {
   const [receiverPhoneNo, setReceiverPhoneNo] = useState(
     parcelInfo?.receiverPhoneNo
   );
-
-  const [status, setStatus] = useState(parcelInfo?.status);
+  let status;
 
   useEffect(() => {
     if (parcelWeight) {
@@ -61,12 +70,15 @@ const UpdateParcels = () => {
         parcelWeight,
         receiverName,
         receiverPhoneNo,
-        status,
+        status: parcelInfo.status,
         price,
       };
 
       try {
-        await axios.patch(`http://localhost:3000/update/${id}`, updatedParcel);
+        await axiosSecure.patch(
+          `http://localhost:3000/update/${id}`,
+          updatedParcel
+        );
         Swal.fire({
           title: "Success",
           text: "Parcel information updated successfully!",

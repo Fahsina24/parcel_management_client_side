@@ -16,6 +16,9 @@ import Statistics from "../pages/Dashboard/Admin/Statistics/Statistics";
 import Dashboard from "../Layout/Dashboard";
 import PrivateRoute from "../Route/PrivateRoute";
 import UpdateParcels from "../pages/Dashboard/User/UpdateParcels/UpdateParcels";
+import AdminRoute from "./AdminRoute";
+import DeliveryMenRoute from "./DeliveryMenRoute";
+import UserRoute from "./UserRoute";
 
 export const router = createBrowserRouter([
   {
@@ -40,80 +43,82 @@ export const router = createBrowserRouter([
 
   {
     path: "/dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "admin/allUsers",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <AllUsers></AllUsers>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
         path: "admin/allDeliveryMen",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <AllDeliveryMen></AllDeliveryMen>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
         path: "admin/allParcels",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <AllParcels></AllParcels>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
         path: "admin/statistics",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <Statistics></Statistics>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
         path: "parcelBooking",
         element: (
-          <PrivateRoute>
+          <UserRoute>
             <ParcelBooking></ParcelBooking>
-          </PrivateRoute>
+          </UserRoute>
         ),
       },
       {
         path: "myParcels/:email",
         element: (
-          <PrivateRoute>
+          <UserRoute>
             <MyParcels></MyParcels>
-          </PrivateRoute>
+          </UserRoute>
         ),
-        loader: ({ params }) =>
-          fetch(`http://localhost:3000/myParcels/${params.email}`),
       },
       {
         path: "myProfile",
         element: (
-          <PrivateRoute>
+          <UserRoute>
             <MyProfile></MyProfile>
-          </PrivateRoute>
+          </UserRoute>
         ),
       },
       {
         path: "deliveryMen/deliveryLists",
         element: (
-          <PrivateRoute>
+          <DeliveryMenRoute>
             <MyDeliveryList></MyDeliveryList>
-          </PrivateRoute>
+          </DeliveryMenRoute>
         ),
       },
       {
         path: "deliveryMen/myReviews",
         element: (
-          <PrivateRoute>
+          <DeliveryMenRoute>
             <MyReviews></MyReviews>
-          </PrivateRoute>
+          </DeliveryMenRoute>
         ),
       },
     ],
@@ -125,7 +130,5 @@ export const router = createBrowserRouter([
         <UpdateParcels></UpdateParcels>
       </PrivateRoute>
     ),
-    loader: ({ params }) =>
-      fetch(`http://localhost:3000/singleParcel/${params.id}`),
   },
 ]);

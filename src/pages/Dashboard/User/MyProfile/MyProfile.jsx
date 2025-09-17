@@ -9,18 +9,31 @@ const MyProfile = () => {
   const { user, updateUserProfile } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [img, setImg] = useState(user?.photoURL);
+  const [imgPrev, setImgPrev] = useState(null);
+  const [file, setFile] = useState("");
   // console.log(img);
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    const image = e.target.image.files[0];
-    // console.log(image);
-    let photoURL;
+  const handleImageFile = async (e) => {
+    const image = e.target.files[0];
     if (image) {
       setErrorMessage("");
+      setImgPrev(URL.createObjectURL(image));
+      setFile(image);
+    }
+  };
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    let photoURL;
+    if (!file) {
+      photoURL = user?.photoURL;
+      await updateUserProfile(user?.displayName, photoURL);
+      setImg(photoURL);
+      setErrorMessage("Please upload photo if you want to change it");
+      return;
+    } else {
       try {
-        photoURL = await imageUpload(image);
+        photoURL = await imageUpload(file);
         // console.log("Uploaded photoURL", photoURL);
-        updateUserProfile(user?.displayName, photoURL);
+        await updateUserProfile(user?.displayName, photoURL);
         const updatedInfo = {
           photoURL: photoURL,
         };
@@ -35,19 +48,14 @@ const MyProfile = () => {
           confirmButtonText: "OK",
         });
         setImg(photoURL);
+        setImgPrev(null);
+        setFile(null);
       } catch {
-        photoURL = user?.photoURL;
-        updateUserProfile(user?.displayName, photoURL);
-        setImg(photoURL);
+        setErrorMessage("Photo upload failed");
         return;
       }
-    } else {
-      photoURL = user?.photoURL;
-      updateUserProfile(user?.displayName, photoURL);
-      setImg(photoURL);
-      setErrorMessage("Please upload photo if you want to change it");
-      return;
     }
+
     e.target.reset();
   };
   return (
@@ -73,8 +81,19 @@ const MyProfile = () => {
                 className="file-input file-input-success w-full border-none h-[60px] text-xl"
                 name="image"
                 accept="image/*"
+                onChange={handleImageFile}
               />
             </div>
+            {imgPrev && (
+              <div className="mt-4">
+                <img
+                  src={imgPrev}
+                  alt="Preview"
+                  className="w-48 h-48 object-cover rounded-lg shadow"
+                />
+              </div>
+            )}
+
             {errorMessage && (
               <div className="flex gap-2 mt-4 items-center">
                 <MdReportGmailerrorred color="red" />

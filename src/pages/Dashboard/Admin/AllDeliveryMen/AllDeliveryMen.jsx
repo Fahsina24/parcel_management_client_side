@@ -1,19 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const AllDeliveryMen = () => {
+  const axiosSecure = useAxiosSecure();
+  const fetchDeliveryMen = async () => {
+    const res = await axiosSecure.get(
+      "http://localhost:3000/userType/deliveryMen"
+    );
+    return res.data;
+  };
+
   const {
     data: allDeliveryMen,
     isPending,
     refetch,
   } = useQuery({
     queryKey: ["allDeliveryMenDetails"],
-    queryFn: async () => {
-      const res = await fetch("http://localhost:3000/userType/deliveryMen");
-      refetch();
-      return res.json();
-    },
+    queryFn: fetchDeliveryMen,
   });
-  console.log(allDeliveryMen);
+
+  // console.log(allDeliveryMen);
   if (isPending) return "Loading...";
   return (
     <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">

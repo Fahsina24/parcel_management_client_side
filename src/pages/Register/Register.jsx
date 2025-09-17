@@ -5,7 +5,6 @@ import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { imageUpload } from "../../api/imgApi";
-import axios from "axios";
 import { DiAptana } from "react-icons/di";
 import bgPhoto from "../../assets/logInPic/backgroundCover.jpg";
 import { motion } from "motion/react";
@@ -17,12 +16,14 @@ const Register = () => {
   const { createUser, signInWithGoogle, updateUserProfile } =
     useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
+  const [photoErrMsg, setPhotoErrMsg] = useState("");
   const [btnClicked, setBtnClicked] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     setBtnClicked(true);
     setErrorMessage("");
+    setPhotoErrMsg("");
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
@@ -33,14 +34,8 @@ const Register = () => {
     const userType = form.userType.value;
     let photoURL;
     // console.log(userType);
-    try {
-      photoURL = await imageUpload(image);
-      // console.log("Uploaded photoURL");
-    } catch {
-      setErrorMessage("Please upload photo to continue the registration");
-      setBtnClicked(false);
-      return;
-    }
+
+    // Password Verification
 
     if (password.length < 6) {
       setErrorMessage("Password should be atleast 6 character or more");
@@ -54,6 +49,23 @@ const Register = () => {
       );
       setBtnClicked(false);
       return;
+    }
+
+    // photo Validation
+
+    if (!image) {
+      setPhotoErrMsg("Please upload photo to continue the registration");
+      setBtnClicked(false);
+      return;
+    }
+    if (image) {
+      try {
+        photoURL = await imageUpload(image);
+      } catch {
+        setPhotoErrMsg("Please upload photo to continue the registration");
+        setBtnClicked(false);
+        return;
+      }
     }
 
     // createUser with EmailAndPassword
@@ -90,7 +102,7 @@ const Register = () => {
         confirmButtonText: "Close",
       });
     }
-    setBtnClicked(false);
+
     form.reset();
   };
   // Google Sign In
@@ -167,6 +179,9 @@ const Register = () => {
               accept="image/*"
             />
           </div>
+          {photoErrMsg && (
+            <p className="text-red-800 font-extrabold">{photoErrMsg}</p>
+          )}
           <div>
             <label className="label mb-2 text-xl md:text-2xl font-bold text-black">
               User Type:

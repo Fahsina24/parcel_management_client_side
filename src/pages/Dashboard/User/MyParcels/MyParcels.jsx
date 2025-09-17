@@ -1,11 +1,20 @@
-import { useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const MyParcels = () => {
-  const myParcels = useLoaderData();
-  console.log(myParcels);
-  const [listedData, setListedData] = useState(myParcels);
+  const { email } = useParams();
+  const axiosSecure = useAxiosSecure();
+  const [listedData, setListedData] = useState([]);
+
+  useEffect(() => {
+    axiosSecure
+      .get(`/myParcels/${email}`)
+      .then((res) => setListedData(res.data))
+      .catch((err) => console.error(err));
+  }, [email, axiosSecure]);
+
   const handleCancel = (id) => {
     Swal.fire({
       title: "Are you sure?",

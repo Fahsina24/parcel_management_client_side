@@ -5,10 +5,6 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const AllUsers = () => {
-  const [userTypes, setUserTypes] = useState({
-    role: "somethingElse",
-    visible: true,
-  });
   const axiosSecure = useAxiosSecure();
   const {
     data: allUsers,
@@ -38,14 +34,12 @@ const AllUsers = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axiosSecure.patch(`/handleUserType/${id}`, value);
+          refetch();
           Swal.fire({
             title: "Congrats",
             text: `${name} became an Admin now.`,
             icon: "success",
             confirmButtonText: "OK",
-          });
-          setUserTypes({
-            visible: false,
           });
         }
       });
@@ -60,15 +54,12 @@ const AllUsers = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axiosSecure.patch(`/handleUserType/${id}`, value);
+          refetch();
           Swal.fire({
             title: "Congrats",
             text: `${name} became a DeliveryMen now.`,
             icon: "success",
             confirmButtonText: "OK",
-          });
-
-          setUserTypes({
-            visible: false,
           });
         }
       });
@@ -96,18 +87,16 @@ const AllUsers = () => {
                 <th>Make Admin Panel</th>
               </tr>
             </thead>
-
-            {allUsers?.map((man, index) => (
-              <tbody key={index}>
-                <tr>
+            <tbody>
+              {allUsers?.map((man, index) => (
+                <tr key={index}>
                   <th>{index + 1}</th>
                   <td>{man?.displayName}</td>
                   <td>{man?.buyerPhoneNo}</td>
                   <td>Booked Parcels Quantity</td>
                   <td>Total Spent</td>
                   {man.userType !== "DeliveryMen" &&
-                  man.userType !== "Admin" &&
-                  userTypes.visible ? (
+                  man.userType !== "Admin" ? (
                     <td>
                       <button
                         className="btn m-4"
@@ -128,8 +117,7 @@ const AllUsers = () => {
                     </td>
                   )}
                   {man.userType !== "DeliveryMen" &&
-                  man.userType !== "Admin" &&
-                  userTypes.visible ? (
+                  man.userType !== "Admin" ? (
                     <td>
                       <button
                         className="btn m-4"
@@ -150,8 +138,8 @@ const AllUsers = () => {
                     </td>
                   )}
                 </tr>
-              </tbody>
-            ))}
+              ))}
+            </tbody>
           </table>
         </div>
       )}

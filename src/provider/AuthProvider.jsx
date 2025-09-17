@@ -63,7 +63,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       userActive();
     };
-  }, []);
+  }, [axiosPublic]);
 
   const userInfo = {
     user,

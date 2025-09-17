@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { MdErrorOutline } from "react-icons/md";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const AllParcels = () => {
   const [deliveryMensData, setDeliveryMensData] = useState("");
@@ -13,15 +12,16 @@ const AllParcels = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [parcelId, setParcelId] = useState("");
+  const axiosSecure = useAxiosSecure();
   const {
-    data: allParcels,
+    data: allParcels = [],
     isPending,
     refetch,
   } = useQuery({
     queryKey: ["allParcels"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:3000/allParcels");
-      return res.json();
+      const res = await axiosSecure.get("/allParcels");
+      return res.data;
     },
   });
   if (isPending) return "Loading...";
@@ -31,14 +31,18 @@ const AllParcels = () => {
     setIsOpen(true);
     // console.log(id);
     const GetUsers = async () => {
-      const res = await fetch(`http://localhost:3000/userType/deliveryMen`);
-      const data = await res.json();
-      setDeliveryMensData(data);
+      const res = await axiosSecure.get(
+        `http://localhost:3000/userType/deliveryMen`
+      );
+      const list = await res.data;
+      setDeliveryMensData(list);
       setParcelId(id);
       setErrorMessage("");
     };
     GetUsers();
   };
+  console.log(selectedDeliveryMen);
+
   const handleAssign = async (date, id) => {
     setErrorMessage("");
     if (!selectedDeliveryMen) {
@@ -52,10 +56,10 @@ const AllParcels = () => {
     } else {
       // console.log(date);
       try {
-        const res = await fetch(
-          `http://localhost:3000/user/${selectedDeliveryMen}`
+        const res = await axiosSecure.get(
+          `http://localhost:3000/user/${selectedDeliveryMen?.displayName}`
         );
-        const data = await res.json();
+        const response = await res.data;
         let deliveryMenId = selectedDeliveryMen?._id;
 
         const updatedParcel = {
@@ -64,7 +68,7 @@ const AllParcels = () => {
           approximateDeliveryDate: `${date}`,
         };
         // console.log(updatedParcel);
-        await axios.patch(
+        await axiosSecure.patch(
           `http://localhost:3000/bookingDetailsUpdate/${id}`,
           updatedParcel
         );
