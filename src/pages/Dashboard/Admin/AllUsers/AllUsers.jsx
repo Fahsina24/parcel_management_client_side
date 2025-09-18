@@ -11,7 +11,7 @@ const AllUsers = () => {
     isPending,
     refetch,
   } = useQuery({
-    queryKey: ["allUsersDetails"],
+    queryKey: ["usersDetails"],
     queryFn: async () => {
       const res = await axiosSecure.get("/allUsersDetails");
       return res.data;

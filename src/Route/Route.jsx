@@ -127,7 +127,9 @@ export const router = createBrowserRouter([
     path: "/update/:id",
     element: (
       <PrivateRoute>
-        <UpdateParcels></UpdateParcels>
+        <UserRoute>
+          <UpdateParcels></UpdateParcels>
+        </UserRoute>
       </PrivateRoute>
     ),
   },

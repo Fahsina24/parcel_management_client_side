@@ -10,7 +10,7 @@ const UserRoute = ({ children }) => {
     );
   }
 
-  if (userRole == "user") {
+  if (userRole == "User") {
     return children;
   }
   return (

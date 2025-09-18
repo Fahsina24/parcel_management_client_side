@@ -14,6 +14,7 @@ const useUserRole = () => {
       return res.data;
     },
   });
+
   return [userRole, isLoading];
 };
 

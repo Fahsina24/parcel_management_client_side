@@ -63,12 +63,36 @@ const Navbar = () => {
       >
         {user?.displayName}
       </p>
-      <Link
-        to="/dashboard/parcelBooking"
-        className=" btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
-      >
-        DashBoard"
-      </Link>
+      {user && userRole === "Admin" && (
+        <>
+          <Link
+            to="/dashboard/admin/statistics"
+            className=" btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
+          >
+            DashBoard
+          </Link>
+        </>
+      )}
+      {user && userRole === "DeliveryMen" && (
+        <>
+          <Link
+            to="/dashboard/deliveryMen/deliveryLists"
+            className=" btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
+          >
+            DashBoard
+          </Link>
+        </>
+      )}
+      {user && userRole === "User" && (
+        <>
+          <Link
+            to="/dashboard/parcelBooking"
+            className=" btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
+          >
+            DashBoard
+          </Link>
+        </>
+      )}
 
       <div
         className=" btn bg-blue-400 border-0 font-extrabold text-lg min-w-full hover:bg-sky-600 focus:bg-sky-700 my-4 shadow-none"
